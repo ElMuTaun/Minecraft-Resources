@@ -1,0 +1,83 @@
+
+Sources: gadomancy/common/entities/EntityAuraCore.java
+         TC4.2.3.5のデコンパイル
+
+概要：
+ドロップされたAura Coreの周囲9x9x9にあるブロックの根源相を取得し、最も多い(例外あり)根源相に変化
+
+詳細な仕様：
+前提として、9x9x9の範囲に109ブロック以上必要(相を持たないブロックは"含まない")  不足する場合失敗する
+起動時の結晶株によって根源相60ポイント分加算
+合成相は根源相まで分解される 研究同様のスタック方式(例： 1 Herba = 2 Terra + 1 Aqua)
+
+変化先の抽選：
+1. 根源相量の平均値を計算する  根源相の総計/根源相の種類数
+2. 平均値以上の量を持つ根源相を選択、次の抽選に参加する
+3. 選択された根源相の中から、相の量を元に重み付きのランダム抽選を行う
+
+描画について：
+パーティクル色の選択にはelectParliament(議会の選出)と洒落た名前が付いてる
+6席のパーティクルを得票率に応じて配分する
+
+追記：
+指摘コメ待ってます ThaumicHorizonsより黒魔術してて分からん
+
+
+
+
+=======
+
+必要条件:
+    L55| private static final int GATHER_RANGE = 4;
+    L58| private static final int REQUIRED_BLOCKS = (int) Math.round(Math.pow(EntityAuraCore.GATHER_RANGE * 2 + 1, 3) * 0.15);
+    -> 9x9の範囲に109個以上"相を持つブロック(L331)"が存在する必要がある  (無属性ブロックは数に含まない)
+
+    L56| private static final int CLUSTER_WEIGHT = 10;
+    L78| public EntityAuraCore(World world, double x, double y, double z, ItemStack stack, ChunkCoordinates startingCoords, Aspect[] aspects) {
+            super(world, x, y, z, stack);
+            this.activationLocation = startingCoords;
+            if (aspects.length == 1) {
+                this.internalAuraList.add(aspects[0], EntityAuraCore.CLUSTER_WEIGHT * 6);
+            } else {
+                for (Aspect a : aspects) {
+                    if (a == null) continue;
+                    this.internalAuraList.add(a, EntityAuraCore.CLUSTER_WEIGHT);
+                }
+            }
+            this.sendAspectData(this.electParliament());
+
+            this.initGathering();
+        }
+    -> 起動時のクラスターは60ポイント分
+
+TC4.2.3.5から逆コンパイルしてきた
+  public static AspectList reduceToPrimals(AspectList al) {
+    return reduceToPrimals(al, false);
+  }
+
+  public static AspectList reduceToPrimals(AspectList al, boolean merge) {
+    AspectList out = new AspectList();
+    for (Aspect aspect : al.getAspects()) {
+      if (aspect != null)
+        if (aspect.isPrimal()) {
+          if (merge) {
+            out.merge(aspect, al.getAmount(aspect));
+          } else {
+            out.add(aspect, al.getAmount(aspect));
+          }
+        } else {
+          AspectList send = new AspectList();
+          send.add(aspect.getComponents()[0], al.getAmount(aspect));
+          send.add(aspect.getComponents()[1], al.getAmount(aspect));
+          send = reduceToPrimals(send, merge);
+          for (Aspect a : send.getAspects()) {
+            if (merge) {
+              out.merge(a, send.getAmount(a));
+            } else {
+              out.add(a, send.getAmount(a));
+            }
+          }
+        }
+    }
+    return out;
+  }

@@ -1,0 +1,15 @@
+Stolen from somewhere idk
+
+lifespan:: shortest -> Cultivated
+Production:: Blinding -> Stardust bees (needs alveary in the end, with some startust ore below it)
+Pollination:: use fast from industrious
+Flower Type:: Rocks -> Rocky
+Fertility:: 4x -> Wintry or Majestic
+Territory:: doesn't really matter, i got largest from ender
+Effect:: what ever fits your fancy, beatific is nice to have tho, empowering if you want big thaum nodes
+
+Temperature Tolerance:: Use and acclimatiser from the genetics mod and max it out to both 5
+Humidity Tolerence:: Use and acclimatiser from the genetics mod and max it out to both 5
+Diurnal/Nocturnal:: Rocky
+Tolerent Flyer:: Water or Rocky
+Cave Dwelling:: Rocky

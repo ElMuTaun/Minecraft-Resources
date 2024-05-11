@@ -1,0 +1,22 @@
+
+int cycleTime = 20;
+
+安定度の倍率: Math.pow(0.75f, 個数-1)
+安定器リスト:
+    Eldritch Pedestal +0.1f
+    Candle +0.1f
+    Redstone Inlay +0.025f
+    Stabilizer +0.025f
+
+Ancient Pillar:
+    cycleTime--; costMult -= 0.1f; stabilityReplenish -= 0.1f;
+Eldritch Pillar:
+    cycleTime -= 3; costMult += 0.05f; stabilityReplenish += 0.2f;
+Infusion Speed Stone:
+    cycleTime--; costMult += 0.01f;
+Infusion Cost Stone:
+    cycleTime++; costMult -= 0.02f;
+
+台座関連：
+点対象の位置の台座が片方空・もう片方はアイテム有の場合は安定度ペナルティ(通常0.1f)
+    アイテムさえあれば中身は問わない。同アイテムを対象に置く必要はない。

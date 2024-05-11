@@ -1,0 +1,18 @@
+public boolean canIncreasePlayerSkill(int currentSkillLevel) {
+    return this.currentLevel <= this.maxLevel &&
+        this.maxLevel != 0 ?
+            (currentSkillLevel < 30 ?
+                this.maxLevel > 1 && this.currentLevel > 1
+                : (currentSkillLevel < 60 ?
+                    this.maxLevel >= 4 && this.currentLevel >= 4
+                    : (currentSkillLevel < 90 ?
+                        this.maxLevel >= 6 && this.currentLevel >= 6
+                        : (currentSkillLevel == 100 ?
+                            false
+                            : this.maxLevel >= 8 && this.currentLevel >= 8
+                        )
+                    )
+                )
+            )
+        : false;
+}

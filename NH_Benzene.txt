@@ -1,0 +1,11 @@
+
+Time Unit: sec
+
+3900 Nitro / 80sec
+16 Log + 1000 Nitrogen -> 20 Charcoal + Wood Tar / 16sec
+20 Charcoal -> 2000 Wood Tar / 30sec / machine
+Proc: 3500 Wood Tar / 16sec => 218.75 Wood Tar / pyro / sec
+
+500 Wood Tar -> 200 Benzene + 50 Toluene (1 Distillation Tower, 256EU/t)
+
+200 Benzene -> 3,600 EU/t
