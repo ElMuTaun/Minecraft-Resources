@@ -1,0 +1,9 @@
+
+# IDE
+/.vscode/
+
+# Python venv
+/Include/
+/Lib/
+/Scripts/
+/pyvenv.cfg
