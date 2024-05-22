@@ -1,4 +1,6 @@
 
+# 動画用のスクリプト
+
 Sources: gadomancy/common/entities/EntityAuraCore.java
          TC4.2.3.5のデコンパイル
 

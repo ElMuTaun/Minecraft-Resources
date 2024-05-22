@@ -3,6 +3,8 @@
 
 Disclaimer: These are NOT exact values  
 
+---
+
 ## Items
 1 bit = 1 item  
 1 byte = 8 item  
@@ -19,6 +21,7 @@ Super Chest IV = 32,000,000 items
 Super Chest V = 64,000,000 items  
 Quantum Chest I = 128,000,000 items  
 
+---
 
 ## Fluids
 
