@@ -13,6 +13,7 @@ My collection of resources related to modded Minecraft. (1.7.10 or 1.12.2)
 - [AE2's Storage Cell Capacity](./AE2_StorageMath.md)
 - [AE2 Unofficial(1.7.10)/UEL(1.12.2) 完全比較](./AE3_comparison.md)
 - [AE2 Tips & Tricks](./AE2_TipsandTricks.md)
+- [Good Practices With AE 日本語意訳](./AE2_GoodPractices.md)
 
 ---
 
