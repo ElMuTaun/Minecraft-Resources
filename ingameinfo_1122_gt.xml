@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- InGame Info XML for GregTech CE Unofficial -->
+<config>
+    <lines at="topleft">
+        <line>  <!-- 日付/時刻を表示 -->
+            <!--
+            <str>Day: {day}  </str>
+            -->
+            <str>Time: {mctime} (</str>
+            <if>
+                <var>daytime</var>
+                <str>$eDay</str>
+                <str>$3Night</str>
+            </if>
+            <str> time$f)  |{directionhud}|</str>
+        </line>
+        <line>  <!-- Dimension/Biome情報を表示 -->
+            <str>Dim {dimensionid}: </str>
+            <if> <var>rftdimension</var>
+                <concat>
+                    <if> <not><equal> <var>rftdimensionname</var> <str></str> </equal></not>
+                        <str>{rftdimensionname}(RFTools Dim) / </str>
+                    </if>
+                    <str>Running $e{rftdimensioncost}$f RF/t</str>
+                </concat>
+                <var>dimension</var>
+            </if>
+            <str>  Biome: $e{biome}$f (ID: {biomeid})</str>
+            <if>
+                <var>slimes</var>
+                <str> ($aSlime$f)</str>
+                <str> </str>
+            </if>
+        </line>
+        <line>  <!-- Biomeの湿度や温度を表示 -->
+            <!--
+            <str>>>Humidity: $e{humidity}%$f  Temperature: $e{temperature}$f (Local: $e{localtemperature}$f)</str>
+            -->
+        </line>
+        <line>  <!-- 天候を表示 -->
+            <str>Weather: </str>
+            <if> <and>
+                    <not><var>raining</var></not>
+                    <not><var>snowing</var></not>
+                    <not><var>thundering</var></not>
+                </and>
+                <str>None</str>
+            </if>
+            <if> <and>
+                    <var>raining</var>
+                    <not><var>thundering</var></not>
+                </and>
+                <str>$eRaining$f</str>
+            </if>
+            <if> <and>
+                    <var>snowing</var>
+                    <not><var>thundering</var></not>
+                </and>
+                <str>$eSnowing$f</str>
+            </if>
+            <if> <var>thundering</var>
+                <str>$eThundering$f</str>
+            </if>
+            <if> <not><equal> <var>nextweatherchange</var><str>?</str> </equal></not>
+                <str>  Next: {nextweatherchange}</str>
+            </if>
+        </line>
+        <line>  <!-- 現在のチャンクを表示 -->
+            <str>Chunk X:$e {chunkx} $fZ:$e {chunkz}$f</str>
+            <!--GregTech CommunityEditionの鉱脈情報 (B:generateVeinsInCenterOfChunk=true の場合のみ)-->
+            <str> (</str>
+            <if> <and>
+                    <equal><modi><sub><var>chunkx</var><num>1</num></sub><num>3</num></modi><num>0</num></equal>
+                    <equal><modi><sub><var>chunkz</var><num>1</num></sub><num>3</num></modi><num>0</num></equal>
+                </and>
+                <str>$aOre Vein$f</str>
+                <concat>
+                    <op>
+                        <str>eq</str>
+                        <modi><sub><var>chunkx</var><num>1</num></sub><num>3</num></modi>
+                        <num>0</num><num>1</num><num>2</num><num>-1</num><num>-2</num>
+                        <str>0</str><str>-1</str><str>+1</str><str>+1</str><str>-1</str>
+                        <str>ERROR</str>
+                    </op>
+                    <str>,</str>
+                    <op>
+                        <str>eq</str>
+                        <modi><sub><var>chunkz</var><num>1</num></sub><num>3</num></modi>
+                        <num>0</num><num>1</num><num>2</num><num>-1</num><num>-2</num>
+                        <str>0</str><str>-1</str><str>+1</str><str>+1</str><str>-1</str>
+                        <str>ERROR</str>
+                    </op>
+                </concat>
+            </if>
+            <str>)</str>
+        </line>
+        <line>  <!-- チャンク内での座標を表示(0~15) -->
+            <str>>>Offset X: $e{chunkoffsetx}$f Z: $e{chunkoffsetz}$f</str>
+            <if> <and>
+                    <equal><var>chunkoffsetx</var><num>8</num></equal>
+                    <equal><var>chunkoffsetz</var><num>8</num></equal>
+                </and>
+                <str> ($aCenter$f)</str>
+            </if>
+        </line>
+        <line>  <!-- ThaumCraftのチャンク内Aura/Flux量を表示 -->
+            <!--
+            <str>>>TC Aura/Flux: $e{thaumaura}$f/$e{thaumflux}$f</str>
+            -->
+        </line>
+        <line>  <!-- 読み込んでいるチャンクの数を表示 1.12.2では機能しない？ -->
+            <if> <not><equal> <var>loadedchunks</var> <num>-1</num> </equal></not>
+                <str>>>Loaded: $e{loadedchunks}$f chunks</str>
+            </if>
+        </line>
+        <line>  <!-- ワールド内での座標を表示 -->
+            <str>Coord X: $e{x}$f Y: $e{y}$f Z: $e{z}$f</str>
+        </line>
+        <line>  <!-- 現在の移動速度を表示 -->
+            <str>Speed: $e{speedxz}$f (X:{speedx} Y:{speedy} Z:{speedz})</str>
+        </line>
+        <line>  <!-- 現在地の光レベルを表示 形式: <現在の光レベル>(<夜間の光レベル>) -->
+            <str>Light: </str>
+            <max>
+                <var>light</var>
+                <num>7.5</num>
+                <str>$e</str>
+                <str>$c</str>
+            </max>
+            <str>{light}$f ($e</str>
+            <max>
+                <var>lightnosun</var>
+                <num>7.5</num>
+                <str>$e</str>
+                <str>$c</str>
+            </max>
+            <str>{lightnosun}$f)</str>
+        </line>
+        <line>  <!-- BloodMagicのLP貯蔵量を表示 -->
+            <!--
+            <str>Current LP: $e{bmcurrentlp}$f (Tier: {bmorbtier})</str>
+            -->
+        </line>
+        <line>  <!-- ThaumCraftの歪み蓄積量を表示 -->
+            <!--
+            <str>Warp P/N/T: $e{thaumwarpperm}$f/$e{thaumwarpnormal}$f/$e{thaumwarptemp}$f</str>
+            -->
+        </line>
+        <line>  <!-- カーソル上のMobやBlockの名前を表示 -->
+            <!--
+            <str>Cursor: </str>
+            <if> <equal><var>mouseovername</var><str></str></equal>
+                <str>None</str>
+                <str>$e{mouseovername}$f</str>
+            </if>
+            -->
+        </line>
+        <line>  <!-- カーソル上のMobやBlockのIDを表示 -->
+            <!--
+            <str>>>ID: </str>
+            <if> <equal><var>mouseovername</var><str></str></equal>
+                <str>None</str>
+                <str>{mouseoveruniquename}:{mouseovermetadata}</str>
+            </if>
+            -->
+        </line>
+        <line>  <!-- 騎乗中の馬のステータスを表示 -->
+            <if> <var>ridinghorse</var> <concat>
+                <str>Horse HP: </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>horsehealth</var><var>horsemaxhealth</var> </pct>
+                    <num>80</num><num>50</num><num>20</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+                <!-- Health Max:30 Min:15 -->
+                <str>{horsehealth}$f / {horsemaxhealth} (</str>
+                <round><pct><sub><var>horsemaxhealth</var><num>15</num></sub><num>15</num></pct><num>0</num></round>
+                <str>%)</str>
+            </concat></if>
+        </line>
+        <line>
+            <if> <var>ridinghorse</var> <concat>
+                <!-- Speed Max:14.57 Min4.86: -->
+                <str>>>Speed: {horsespeed} (</str>
+                <round><pct><sub><var>horsespeed</var><num>4.86</num></sub><num>9.71</num></pct><num>0</num></round>
+                <str>%)  </str>
+                <!-- Jump Max:5.293 Min:1.086 -->
+                <str>Jump: {horsejumpstrength} (</str>
+                <round><pct><sub><var>horsejumpstrength</var><num>1.086</num></sub><num>4.207</num></pct><num>0</num></round>
+                <str>%)</str>
+            </concat></if>
+        </line>
+        <line>
+            <str> </str>
+        </line>
+        <line>  <!-- プレイヤー名とPingを表示 -->
+            <str>Player: {username}</str>
+            <if> <and>
+                    <not><equal><var>server</var><str>localhost</str></equal></not>
+                    <greater><var>ping</var><num>0</num></greater>
+                </and>
+                <str>  {pingicon}$e{ping}$fms</str>
+            </if>
+        </line>
+        <line>  <!-- プレイヤーの体力を表示 -->
+            <str>>>HP: </str>
+            <op>
+                <str>ge</str>
+                <pct> <var>health</var><var>maxhealth</var> </pct>
+                <num>50</num><num>30</num><num>15</num>
+                <str>$e</str><str>$6</str><str>$c</str>
+                <str>$4</str>
+            </op>
+            <str>{health}$f / $e{maxhealth}$f</str>
+            <if> <not><equal><var>armor</var><num>0</num></equal></not>
+                <str>  Armor: {armor}</str>
+            </if>
+        </line>
+        <line>  <!-- プレイヤーの満腹度を表示 -->
+            <str>>>Hunger: <em></em></str>
+            <op>
+                <str>ge</str>
+                <pct> <var>foodlevel</var><var>maxfoodlevel</var> </pct>
+                <num>50</num><num>30</num><num>15</num>
+                <str>$e</str><str>$6</str><str>$c</str>
+                <str>$4</str>
+            </op>
+            <str>{foodlevel}$f / $e{maxfoodlevel}$f (Sat: </str>
+            <round><var>saturation</var><num>0</num></round>
+            <str> Exh: </str>
+            <round> <pct><var>exhaustion</var><num>4</num></pct> <num>1</num> </round>
+            <str>%)</str>
+        </line>
+        <line>  <!-- プレイヤーの経験値量を表示 -->
+            <str>>>EXP: $e{xpthislevel}$f / $e{xpcap}$f ($e</str>
+            <round>
+                <pct>
+                    <var>xpthislevel</var>
+                    <var>xpcap</var>
+                </pct>
+                <num>0</num>
+            </round>
+            <str>%$f)</str>
+        </line>
+        <line>  <!-- 水中プレイヤーの酸素残量を表示 -->
+            <if> <var>inwater</var> <concat>
+                <str>>>Breath: </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>airticks</var><var>maxairticks</var> </pct>
+                    <num>50</num><num>20</num><num>1</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+                <str>{airticks}$f / {maxairticks}</str>
+            </concat></if>
+        </line>
+        <line>  <!-- 接続中のサーバーの情報を表示 -->
+            <if> <not><equal><var>server</var><str>localhost</str></equal></not>
+                <str>Server: {servername}</str>
+                <!--
+                <str>Server: {servername} ({serverip} | {serverport})</str>
+                -->
+            </if>
+        </line>
+        <line>  <!-- ワールドの難易度設定を表示 -->
+            <str>Difficulty: </str>
+            <if> <var>hardcore</var>
+                <str>$cHardCore$f</str>
+                <concat>
+                    <str>$e</str>
+                    <op>
+                        <str>ge</str>
+                        <var>difficultyid</var>
+                        <num>3</num><num>2</num><num>1</num>
+                        <str>Hard</str><str>Normal</str><str>Easy</str>
+                        <str>Peaceful</str>
+                    </op>
+                    <str>$f</str>
+                </concat>
+            </if>
+            <str> (Local:{localdifficulty})</str>
+        </line>
+        <line>  <!-- 現在のFPSを表示 -->
+            <str>FPS: </str>
+            <str>$e</str>
+            <!--
+            <op> <str>ge</str> <var>fps</var>
+                <num>60</num><num>45</num><num>30</num><num>15</num><num>0</num>
+                <str>$a</str><str>$e</str><str>$6</str><str>$c</str><str>$4</str>
+                <str/>
+            </op>
+            -->
+            <var>fps</var>
+        </line>
+        <line>  <!-- 現在のメモリ使用状況を表示 -->
+            <str>Memory Used: $e</str>
+            <round> <div><var>memused</var><num>1048576</num></div> <num>0</num> </round>
+            <str>$fMB / Max: $e</str>
+            <round> <div><var>memmax</var><num>1048576</num></div> <num>0</num> </round>
+            <str>$fMB ($e</str>
+            <round><pct> <var>memused</var><var>memmax</var> </pct><num>0</num></round>
+            <str>%$f)</str>
+        </line>
+        <line>  <!-- 描画されたエンティティの数を表示 -->
+            <str>Entities Rendered: $e{entitiesrendered}$f Total: $e{entitiestotal}$f</str>
+        </line>
+        <line>  <!-- 付近のプレイヤー状況を表示 最大5人、16人まで拡張可能 -->
+            <if><not><equal> <var>nearbyplayername0</var> <str></str> </equal></not>
+                <str>|| $6Nearest players$f:</str>
+            </if>
+        </line>
+        <line>
+            <if><not><equal> <var>nearbyplayername0</var> <str></str> </equal></not>
+                <str>||  $6#1$f {nearbyplayericon0}$a{nearbyplayername0}$f({nearbyplayerdistance0}m)</str>
+            </if>
+        </line>
+        <line>
+            <if><not><equal> <var>nearbyplayername1</var> <str></str> </equal></not>
+                <str>||  $6#2$f {nearbyplayericon1}$a{nearbyplayername1}$f({nearbyplayerdistance1}m)</str>
+            </if>
+        </line>
+        <line>
+            <if><not><equal> <var>nearbyplayername2</var> <str></str> </equal></not>
+                <str>||  $6#3$f {nearbyplayericon2}$a{nearbyplayername2}$f({nearbyplayerdistance2}m)</str>
+            </if>
+        </line>
+        <line>
+            <if><not><equal> <var>nearbyplayername3</var> <str></str> </equal></not>
+                <str>||  $6#4$f {nearbyplayericon3}$a{nearbyplayername3}$f({nearbyplayerdistance3}m)</str>
+            </if>
+        </line>
+        <line>
+            <if><not><equal> <var>nearbyplayername4</var> <str></str> </equal></not>
+                <str>||  $6#5$f {nearbyplayericon4}$a{nearbyplayername4}$f({nearbyplayerdistance4}m)</str>
+            </if>
+        </line>
+        <line>
+            <str> </str>
+        </line>
+        <line>  <!-- メインハンドのアイテムの状態を表示 -->
+            <var>mainhandicon</var>
+            <str> </str>
+            <if> <not><equal><var>mainhandname</var><str></str></equal></not> <concat>
+                <if> <equal><var>mainhandmaxdamage</var><num>0</num></equal>
+                    <concat>
+                        <str>$e{mainhandquantity}$fx - {mainhandname}</str>
+                    </concat>
+                    <concat>
+                        <op>
+                            <str>ge</str>
+                            <pct> <var>mainhanddamageleft</var><var>mainhandmaxdamage</var> </pct>
+                            <num>50</num><num>20</num><num>10</num><num>0</num>
+                            <str>$e</str><str>$6</str><str>$c</str><str>$4</str>
+                            <str/>
+                        </op>
+                        <str>{mainhanddamageleft}$f / {mainhandmaxdamage} - {mainhandname}</str>
+                    </concat>
+                </if>
+            </concat></if>
+        </line>
+        <line>  <!-- オフハンドのアイテムの状態を表示 -->
+            <if> <not><equal><var>offhandname</var><str></str></equal></not> <concat>
+                <var>offhandicon</var>
+                <str> </str>
+                <if> <equal><var>offhandmaxdamage</var><num>0</num></equal>
+                    <concat>
+                        <str>$e{offhandquantity}$fx - {offhandname}</str>
+                    </concat>
+                    <concat>
+                        <op>
+                            <str>ge</str>
+                            <pct><var>offhanddamageleft</var><var>offhandmaxdamage</var></pct>
+                            <num>50</num><num>20</num><num>10</num><num>0</num>
+                            <str>$e</str><str>$6</str><str>$c</str><str>$4</str>
+                            <str/>
+                        </op>
+                        <str>{offhanddamageleft}$f / {offhandmaxdamage} - {offhandname}</str>
+                    </concat>
+                </if>
+            </concat></if>
+        </line>
+        <line>  <!-- 装備中のヘルメットの状態を表示 -->
+            <if> <not><equal><var>helmetname</var><str></str></equal></not> <concat>
+                <var>helmeticon</var>
+                <str> </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>helmetdamageleft</var><var>helmetmaxdamage</var> </pct>
+                    <num>50</num><num>20</num><num>10</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+                <str>{helmetdamageleft}$f / {helmetmaxdamage} - {helmetname}</str>
+            </concat></if>
+        </line>
+        <line>  <!-- 装備中のチェストプレートの状態を表示 -->
+            <if> <not><equal><var>chestplatename</var><str></str></equal></not> <concat>
+                <var>chestplateicon</var>
+                <str> </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>chestplatedamageleft</var><var>chestplatemaxdamage</var> </pct>
+                    <num>50</num><num>20</num><num>10</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+            <str>{chestplatedamageleft}$f / {chestplatemaxdamage} - {chestplatename}</str>
+            </concat></if>
+        </line>
+        <line>  <!-- 装備中のレギンスの状態を表示 -->
+            <if> <not><equal><var>leggingsname</var><str></str></equal></not> <concat>
+                <var>leggingsicon</var>
+                <str> </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>leggingsdamageleft</var><var>leggingsmaxdamage</var> </pct>
+                    <num>50</num><num>20</num><num>10</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+                <str>{leggingsdamageleft}$f / {leggingsmaxdamage} - {leggingsname}</str>
+            </concat></if>
+        </line>
+        <line>  <!-- 装備中のブーツの状態を表示 -->
+            <if> <not><equal><var>bootsname</var><str></str></equal></not> <concat>
+                <var>bootsicon</var>
+                <str> </str>
+                <op>
+                    <str>ge</str>
+                    <pct> <var>bootsdamageleft</var><var>bootsmaxdamage</var> </pct>
+                    <num>50</num><num>20</num><num>10</num>
+                    <str>$e</str><str>$6</str><str>$c</str>
+                    <str>$4</str>
+                </op>
+                <str>{bootsdamageleft}$f / {bootsmaxdamage} - {bootsname}</str>
+            </concat></if>
+        </line>
+        <line>
+            <str> </str>
+        </line>
+        <line>  <!-- ポーション効果の効果時間を表示 362個まで拡張可能 -->
+            <max>
+                <var>potiondurationticks0</var>
+                <num>0.5</num>
+                <str>{potionicon0} {potionduration0} - {potioneffect0}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks1</var>
+                <num>0.5</num>
+                <str>{potionicon1} {potionduration1} - {potioneffect1}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks2</var>
+                <num>0.5</num>
+                <str>{potionicon2} {potionduration2} - {potioneffect2}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks3</var>
+                <num>0.5</num>
+                <str>{potionicon3} {potionduration3} - {potioneffect3}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks4</var>
+                <num>0.5</num>
+                <str>{potionicon4} {potionduration4} - {potioneffect4}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks5</var>
+                <num>0.5</num>
+                <str>{potionicon5} {potionduration5} - {potioneffect5}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks6</var>
+                <num>0.5</num>
+                <str>{potionicon6} {potionduration6} - {potioneffect6}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks7</var>
+                <num>0.5</num>
+                <str>{potionicon7} {potionduration7} - {potioneffect7}</str>
+                <str/>
+            </max>
+        </line>
+        <line>
+            <max>
+                <var>potiondurationticks8</var>
+                <num>0.5</num>
+                <str>{potionicon8} {potionduration8} - {potioneffect8}</str>
+                <str/>
+            </max>
+        </line>
+    </lines>
+</config>
