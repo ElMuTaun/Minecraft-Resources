@@ -71,6 +71,24 @@ Production 8枚を搭載すると、CommonでのModifier計算時に18エッセ�
 
 ---
 
+## Apiary Upgrade 構成例
+- LV / Auto = 2 Ess., 113 EU/t
+- LV / 1 Prod / Auto = 5 Ess., 145 EU/t
+- LV / 8 Prod / Auto = 18 Ess., 1233 EU/t
+- MV / 1 Prod / Auto = 10 Ess., 355 EU/t
+- MV / 5 Prod / Auto = 20 Ess., 1003 EU/t
+- MV / 6 Prod / Auto = 24 Ess., 1353 EU/t
+- MV / 8 Prod / Auto = 36 Ess., 2530 EU/t
+- IV / 1 Prod / Auto = 15 Ess., 10015 EU/t
+- IV / 8 Prod / Auto = 54 Ess., 27412 EU/t
+
+Production Modifier: ProductionUpgrade ? 4 * 1.2^n : 2  
+Power Consumption:  
+Production Upgrade: 1.4^n
+Automation Upgrade: 1.1
+
+---
+
 ## TL;DR
 最低要件: Industrial ApiaryにLV Accelerationを搭載する。  
 MV、IVのAccelerationでそれぞれ生産が2倍、3倍と増加。他のアップグレードは電力の無駄。  
@@ -88,7 +106,7 @@ Productionを8枚搭載すれば、未搭載と比較して9倍にもなる。�
 参考値: MV Accel / 8 Production
 Essentia = ceil(max(4.f * pow(1.2d, 8), 1.0f)) * ceil(sqrt(2)) = 18 * 2 = 36 (essentia/10sec)
 Essentia_per_sec = 3.6
-EUt = sirane kakuninnmenndoi
+EUt = 2530
 ```
 
 ---
