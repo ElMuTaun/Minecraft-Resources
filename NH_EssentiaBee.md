@@ -69,6 +69,9 @@ IV-UV Accelの場合 - 3倍。LuV以降はIVと変わりありません。
 Production 8枚を搭載すると、CommonでのModifier計算時に18エッセンシアが得られます。  
 デフォルトのp=2と比較すると9倍。加速の前に、まずはProduction Modifierで生産を伸ばしたいところ。  
 
+追記：蜂の生産物ではないため、Industrial Apiaryに**電力を供給しなくても動きます。**  
+電力を絶つと加工が完了しないため、Automation Upgradeは不要そうです。  
+
 ---
 
 ## Apiary Upgrade 構成例
@@ -86,6 +89,8 @@ Production Modifier: ProductionUpgrade ? 4 * 1.2^n : 2
 Power Consumption:  
 Production Upgrade: 1.4^n
 Automation Upgrade: 1.1
+
+- 表記通りにEU/tを供給せずとも稼働します。[Industrial Apiary](#industrial-apiary)を参照。
 
 ---
 
