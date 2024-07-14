@@ -1,6 +1,10 @@
 
 # Apiary Drainer Explained
 
+## !important
+[生産速度の計算式が変わりました](https://github.com/GTNewHorizons/MagicBees/commit/31c130ebae8862d3ed4f105e5f99dbe127d606c2)。  
+下記の情報は古いので注意されたし。  
+
 ## About
 NewHorizons 2.6.0にて、<s>Essentia Condenserの修正の代わりに</s> Essentia蜂とApiary Drainerが追加された。  
 同名の蜂が二匹存在するが、光っている方の蜂が対象。生産物がなく、Drake蜂への派生が存在しない。  
