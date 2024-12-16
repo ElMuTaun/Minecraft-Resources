@@ -1,6 +1,7 @@
 
 --[[
-  TODOS:
+  TODO:
+  not working for Inscription Tools
   DB Upgrade (NBT sensitive)
   LP Check (WoS running cost)
 ]]
