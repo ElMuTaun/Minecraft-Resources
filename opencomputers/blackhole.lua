@@ -6,7 +6,7 @@ local computer = require("computer")
 local sides = require("sides")
 
 local cfg = {
-    decay_startcrafting = 100, -- (0,100] Set to 20 if you want maximum parallel
+    decay_startcrafting = 100, -- (0,100] Set to 19 if you want maximum parallel
     decay_halting = 5,
     spacetime_expense_max = 256, -- L/s, won't start crafting above threshold
     side_tp_bus_src = sides.south,
@@ -55,6 +55,11 @@ local function checkBlackHoleManip()
     return b_seed and b_collapser
 end
 
+---@return number fluidLevel
+local function checkInputHatch()
+    return component.invoke(tp_hatch, "getFluidInTank", cfg.side_tp_hatch_dst, 1).amount
+end
+
 ---@return boolean
 local function openBlackHole()
     return component.invoke(tp_bus, "transferItem", cfg.side_tp_bus_src, cfg.side_tp_bus_dst, 1, 1)
@@ -93,11 +98,16 @@ local function main()
                 while computer.uptime() < halt_target do
                     os.sleep(1)
                 end
+                -- Start halting if needed
                 if gt_machine.isMachineActive() then
                     print("Black hole halting activated.")
                     local spacetime_consumption = 1
                     while gt_machine.isMachineActive() do
                         if not collapser then
+                            -- Wait if leftover is too many
+                            while checkInputHatch() > spacetime_consumption do
+                                os.sleep(1)
+                            end
                             if not transferSpaceTime(spacetime_consumption*30) then
                                 closeBlackHole()
                                 collapser = true
