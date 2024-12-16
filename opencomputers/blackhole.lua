@@ -73,7 +73,6 @@ local function transferSpaceTime(amount)
 end
 
 local function main()
-    local starttime
     redstone.setOutput(cfg.side_rs_machine, 0)
     while true do
         if redstone.getInput(cfg.side_rs_item_detector) ~= 0 then
@@ -84,13 +83,14 @@ local function main()
                 openBlackHole()
                 print("Black hole opened!")
                 local collapser = false -- Whether Collapser is thrown (thus it's eol mode)
-                starttime = computer.uptime()
+                local starttime = computer.uptime()
+                local halt_target = starttime + 100 - cfg.decay_halting
                 while computer.uptime() - starttime > cfg.decay_startcrafting do
                     os.sleep(1)
                 end
                 -- Start crafting
                 redstone.setOutput(sides.down, 15)
-                while computer.uptime() - starttime < 100 - cfg.decay_halting do
+                while computer.uptime() < halt_target do
                     os.sleep(1)
                 end
                 if gt_machine.isMachineActive() then
