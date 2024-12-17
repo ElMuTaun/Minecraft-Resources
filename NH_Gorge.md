@@ -2,7 +2,6 @@
 // extracted from [en_US.lang](https://github.com/GTNewHorizons/GT5-Unofficial/blob/e3355aa60352e6d43306c046b5fa02f291a1a8ef/src/main/resources/assets/tectech/lang/en_US.lang#L1116-L1127)  
 
 **Confused? Click here for some general info**  
-(and migraine, this hurts me as non-native english speaker)  
 
 ## Introduction
 
